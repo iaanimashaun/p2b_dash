@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="container-fluid pt-2">
+        <div class="row">
+            <div class="col-3">
+                <div class="row m-1">
+                    <div class="card shadow-lg border-success">
+                        <div class="card-header bg-transparent">
+                            <h4>Your Videos</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>Uploaded Videos: {{ upload_vids }}</p>
+                            <p>Active Videos: {{ active_vids }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#uploadVidModal">Upload a Video</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="card shadow-lg border-success">
+                        <div class="card-header bg-transparent">
+                            <h4>Something Else</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="row m-1">
+                    <div class="card shadow-lg border-success">
+                        <div class="card-header bg-transparent">
+                            <h4>Products</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>Active Products: 35</p>
+                            <p>Processing Products: 12</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="">Add a Product</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="card shadow-lg border-success">
+                        <div class="card-header bg-transparent">
+                            <h4>Something Else</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row m-1">
+                <div class="card shadow-lg border-success">
+                    <img src="https://www.datapine.com/blog/wp-content/uploads/2015/10/projected-sales-chart-q3.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p>Sales Data</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload modal -->
+    <div class="modal fade" id="uploadVidModal" tabindex="-1" aria-labelledby="uploadVidModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadVidModalLabel">Upload Video</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="vidForm" action="/upload_video" method="post" enctype="multipart/form-data">
+                        <div class="row form-group">
+                            <label for="videoTitle">Video Title</label>
+                            <input type="text" class="form-control" id="videoTitle" name="videoTitle" required>
+                        </div>
+                        <div class="row form-group">
+                            <label for="videoFile">Video File</label>
+                            <input class="form-control" type="file" id="videoFile" name="videoFile" multiple required>
+                        </div>
+                        <div class="container">
+                            <div class="row no-gutters">
+                              <div class="col-11">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" value="uploadProductList" id="flexSwitchCheckDefault">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">Do you have a product list for this show?</label>
+                                </div>
+                              </div>
+                              <div class="col-1">
+                                <button type="button" class="bi bi-info-circle" data-bs-toggle="popover" title="Product List" data-bs-content="To assure that your viewers find the products you want them to find, please provide us with a product list. You can find our product list csv template below the upload section.">
+                                </button>
+                              </div>
+                            </div>
+                        </div>
+                        <!--<button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>
+                        -->
+                        <div class="uploadProductList selectt">
+                            <label for="productListFile">Product List File</label>
+                            <input class="form-control" type="file" id="productListFile" name="productListFile" multiple>
+                            <p>Download product list csv template <a href="../static/productList_Template.csv">here</a>.</p>
+                        </div>
+                        
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="vidForm" class="btn btn-outline-info" onclick="startSpinner()">
+                        <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true" hidden></span>
+                        <span class="visually-hidden" id="spinnerLabel" hidden>uploading...</span>
+                        <span id="normLabel">Upload</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
